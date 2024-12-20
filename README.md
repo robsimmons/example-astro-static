@@ -8,7 +8,7 @@
 
    This will walk you through creating an Astro site.
 
-2. [Create a new repository on github)(https://github.com/new) and push your new site to github:
+2. [Create a new repository on github](https://github.com/new) and push your new site to github:
 
    ```sh
    git remote add origin git@github.com:USERNAME/REPONAME.git
