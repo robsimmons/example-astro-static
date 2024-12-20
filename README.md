@@ -1,5 +1,7 @@
 # Example disco Astro static site
 
+You can clone this repo, OR you can do the following six steps to make the repo yourself:
+
 1. Create a site with Astro:
 
    ```sh
@@ -58,16 +60,10 @@
    }
    ```
 
-5. Add those files to git, push, and deploy to your disco server:
+5. Add those files to git and push:
 
    ```sh
    git add Dockerfile disco.json
-   git commit -a -m "Get ready to disco 🪩"
+   git commit -a -m "Ready to disco 🪩"
    git push
-   disco projects:add \
-       --name my-astro-static-site \
-       --github USERNAME/REPONAME
-       --domain DOMAINNAME
    ```
-
-   above, replace `USERNAME/REPONAME` with your username and the repository you created (e.g. `john/my-project`) and replace `DOMAINAME` with the domain you wish to deploy your project to (e.g. `myproject.letsdisco.dev`).
