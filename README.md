@@ -1,48 +1,63 @@
-# Astro Starter Kit: Basics
+# Example disco Astro static site
 
-```sh
-npm create astro@latest -- --template basics
-```
+1. Create a site with Astro:
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
+   ```sh
+   npm create astro@latest
+   ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+   This will walk you through creating an Astro site.
 
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
+2. [Create a new repository on github)(https://github.com/new) and push your new site to github:
 
-## 🚀 Project Structure
+   ```sh
+   git remote add origin git@github.com:USERNAME/REPONAME.git
+   git branch -M main
+   git push -u origin main
+   ```
 
-Inside of your Astro project, you'll see the following folders and files:
+   above, replace `USERNAME/REPONAME` with your username and the repository you created (e.g. `john/my-project`)
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+3. Add [this Dockerfile](Dockerfile) to your project:
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+   ```
+   FROM node:latest
 
-## 🧞 Commands
+   WORKDIR /code
 
-All commands are run from the root of the project, from a terminal:
+   # start with dependencies to enjoy caching
+   COPY ./package.json /code/package.json
+   COPY ./package-lock.json /code/package-lock.json
+   RUN npm install
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+   # copy rest and build
+   COPY . /code/.
+   RUN --mount=type=secret,id=.env env $(cat /run/secrets/.env | xargs) npm run build
+   ```
 
-## 👀 Want to learn more?
+4. Add [this disco.json file](disco.json) to your project:
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+   ```
+   {
+       "version": "1.0",
+       "services": {
+           "web": {
+               "type": "generator"
+           }
+       }
+   }
+   ```
+
+5. Add those files to git, push, and deploy to your disco server:
+
+   ```sh
+   git add Dockerfile disco.json
+   git commit -a -m "Get ready to disco 🪩"
+   git push
+   disco projects:add \
+       --name my-astro-static-site \
+       --github USERNAME/REPONAME
+       --domain DOMAINNAME
+   ```
+
+   above, replace `USERNAME/REPONAME` with your username and the repository you created (e.g. `john/my-project`) and replace `DOMAINAME` with the domain you wish to deploy your project to (e.g. `myproject.letsdisco.dev`).
